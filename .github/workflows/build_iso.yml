@@ -29,7 +29,14 @@ jobs:
       
       - name: Checkout Repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-        
+
+      - name: Set Image Tag
+        id: generate-tag
+        shell: bash
+        run: |
+          TAG="stable"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+
       - name: Lowercase Registry
         id: registry_case
         uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f # v6
@@ -43,8 +50,9 @@ jobs:
           arch: x86_64
           image_name: ${{ matrix.image_name }}
           image_repo: ${{ steps.registry_case.outputs.lowercase }}
+          image_tag: ${{ steps.generate-tag.outputs.tag }}
           version: '2025'
-          iso_name: ${{ matrix.image_name }}-notag-612.iso
+          iso_name: ${{ matrix.image_name }}-${{ steps.generate-tag.outputs.tag }}-612.iso
 
       - name: Upload ISO as artifact
         id: upload
