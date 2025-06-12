@@ -43,7 +43,6 @@ jobs:
           arch: x86_64
           image_name: ${{ matrix.image_name }}
           image_repo: ${{ steps.registry_case.outputs.lowercase }}
-          image_tag: ""
           version: '2025'
           iso_name: ${{ matrix.image_name }}-notag-612.iso
 
